@@ -2,14 +2,9 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 import requests
 from datetime import datetime, timedelta
+from . import list
 
 weather_cache = {}
-
-# Словарь с координатами городов (замените на актуальные координаты)
-city_coordinates = {
-    'Москва': {'lat': 55.7558, 'lon': 37.6176},
-    'New York': {'lat': 40.7128, 'lon': -74.0060},
-}
 
 def get_weather_data(lat, lon):
     # Запрос данных о погоде от Yandex
@@ -33,7 +28,7 @@ def get_weather(request):
     print(city_name)
     # Извлечение координат
     if city_name is not None:
-        coordinates = city_coordinates[city_name]
+        coordinates = list.city_coordinates[city_name]
         lat, lon = coordinates['lat'], coordinates['lon']
     else:
         lat = request.GET.get('lat')
